@@ -8,20 +8,20 @@ import java.util.List;
 public class PerfectNumberService {
 
     private CustomRandomService customRandomService;
-    private Integer numberToProcced;
+    private List<Integer> seriesOfNumbersToProceed;
     private List<PerfectNumber> perfectNumbers;
     private float percentOfPn;
 
     public PerfectNumberService() {
         this.customRandomService = new CustomRandomService();
-        this.numberToProcced = 0;
+        this.seriesOfNumbersToProceed = new ArrayList<>();
         this.percentOfPn = 0;
         this.perfectNumbers = new ArrayList<>();
     }
 
     public void start() {
         startMessage();
-        this.numberToProcced = this.customRandomService.generateRandomNumber();
+        this.seriesOfNumbersToProceed = this.customRandomService.generateRandomNumbersSeries();
         startInfoMessage();
         generatingInfoMessage();
 
@@ -32,7 +32,7 @@ public class PerfectNumberService {
     }
 
     private void checkForPerfectNumbers() {
-        for(int i=1; i <= this.numberToProcced; i++) {
+        for(Integer i : this.seriesOfNumbersToProceed) {
             PerfectNumber pn = new PerfectNumber(i);
             if(pn.isPerfect()) {
                 this.perfectNumbers.add(pn);
@@ -42,8 +42,8 @@ public class PerfectNumberService {
 
     private void calculatePercent() {
         int totalPn = this.perfectNumbers.size();
-        if (totalPn > 0 & this.numberToProcced > 0) {
-            this.percentOfPn = ((float)totalPn * 100) / this.numberToProcced;
+        if (totalPn > 0 & this.seriesOfNumbersToProceed.size() > 0) {
+            this.percentOfPn = ((float)totalPn * 100) / this.seriesOfNumbersToProceed.size();
         }
     }
 
@@ -52,7 +52,7 @@ public class PerfectNumberService {
     }
 
     private void startInfoMessage() {
-        System.out.println("Total numbers to proceed: " + numberToProcced.toString());
+        System.out.println("Total numbers to proceed: " + seriesOfNumbersToProceed.toString());
     }
 
     private void generatingInfoMessage() {
